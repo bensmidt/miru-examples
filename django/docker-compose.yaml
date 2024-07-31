@@ -1,0 +1,28 @@
+services:
+  db:
+    image: postgres
+    volumes:
+      # Mount the volume using an absolute path to ensure the volume is placed in the
+      # correct location on the host regardless of where the project is located.
+      - /var/lib/docker/volumes/postgres_data:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_DB=postgres
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+  web:
+    build: .
+    command: >
+      /bin/sh -c "if [ ! -f '/code/manage.py' ]; then
+      django-admin startproject composeexample .;
+      fi &&
+      python manage.py runserver 0.0.0.0:8000"
+    volumes:
+      - .:/code
+    ports:
+      - 8000:8000
+    environment:
+      - POSTGRES_NAME=postgres
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+    depends_on:
+      - db
