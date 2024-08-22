@@ -9,7 +9,7 @@ services:
       - POSTGRES_DB=postgres
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=postgres
-  web:
+  absurdly-long-service-name-to-make-sure-abitrarily-long-strings-are-working-with-aws-role-authentication-in-ecr:
     build: .
     command: >
       /bin/sh -c "if [ ! -f '/code/manage.py' ]; then
